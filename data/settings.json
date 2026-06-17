@@ -1,0 +1,21 @@
+{
+  "linkedinProfileId": "your-linkedin-id",
+  "keywords": [
+    "AI",
+    "React",
+    "Remote",
+    "Staff Engineer",
+    "LLM",
+    "Agentic",
+    "Google"
+  ],
+  "emailRecipient": "your-email@example.com",
+  "openaiApiKey": "",
+  "aiProvider": "gemini",
+  "smtpEnabled": false,
+  "smtpHost": "smtp.gmail.com",
+  "smtpPort": 465,
+  "smtpUser": "",
+  "smtpPass": "",
+  "digestFrequency": "Every Morning at 8:00 AM"
+}

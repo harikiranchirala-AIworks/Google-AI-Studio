@@ -1,0 +1,10 @@
+[
+  {
+    "id": "email_1",
+    "subject": "Your Morning LinkedIn Digest - Jun 17",
+    "recipient": "your-email@example.com",
+    "sentAt": "2026-06-17T07:05:58.463Z",
+    "status": "simulated",
+    "htmlContent": "<h2>LinkedIn Professional Morning Digest</h2><p>Here is your summary of LinkedIn activity tailored by your keywords from past 24 hours.</p>"
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "name": "LinkedIn Morning Digest",
+  "description": "A smart dashboard and Morning Email digest representing past 24-hour job matches, AI developments, and general updates on LinkedIn with key actionable insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
