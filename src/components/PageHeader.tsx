@@ -37,7 +37,7 @@ export default function PageHeader({
           {appName}
         </h1>
         <p className="text-xs text-slate-500 mt-0.5">
-          Active network profile Target: <span className="font-mono font-medium text-blue-700 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-sm">@{linkedinProfileId}</span>
+          Active network profile Target: <span className="font-mono font-medium text-brand-700 bg-brand-50 border border-brand-100 px-2 py-0.5 rounded-md">@{linkedinProfileId}</span>
         </p>
       </div>
 
@@ -45,14 +45,14 @@ export default function PageHeader({
         {/* Interactive App Run Mode Engine Badge/Toggle */}
         <button
           onClick={onToggleRunMode}
-          className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
+          className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-full border transition-all cursor-pointer ${
             runMode === 'server'
               ? 'bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100/70'
-              : 'bg-indigo-50 border-indigo-200 text-indigo-800 hover:bg-indigo-100/70'
+              : 'bg-brand-50 border-brand-200 text-brand-800 hover:bg-brand-100/70'
           }`}
           title="Click to switch between Cloud Server Mode and Standalone Browser (localStorage) Mode"
         >
-          <div className={`w-1.5 h-1.5 rounded-full ${runMode === 'server' ? 'bg-emerald-500 animate-pulse' : 'bg-indigo-500 animate-pulse'}`} />
+          <div className={`w-1.5 h-1.5 rounded-full ${runMode === 'server' ? 'bg-emerald-500 animate-pulse' : 'bg-brand-500 animate-pulse'}`} />
           <span className="font-mono text-[9px] uppercase font-bold tracking-widest">
             {runMode === 'server' ? 'Mode: Cloud Server' : 'Mode: In-Browser'}
           </span>
@@ -61,25 +61,25 @@ export default function PageHeader({
         <button
           onClick={onRefreshData}
           disabled={isRefreshing}
-          className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-500 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 disabled:opacity-50 transition-all cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-600 bg-white border border-slate-300 rounded-full hover:bg-slate-50 disabled:opacity-50 transition-all cursor-pointer"
           title="Refresh Data from Server DB"
         >
-          <RefreshCw size={14} className={`text-slate-400 ${isRefreshing ? "animate-spin text-blue-600" : ""}`} />
+          <RefreshCw size={14} className={`text-slate-500 ${isRefreshing ? "animate-spin text-brand-600" : ""}`} />
           {isRefreshing ? "Syncing..." : "Refresh App"}
         </button>
 
         <button
           onClick={onOpenPasteModal}
-          className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-500 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-600 bg-white border border-slate-300 rounded-full hover:bg-slate-50 transition-colors cursor-pointer"
         >
-          <PlusCircle size={14} className="text-slate-400" />
+          <PlusCircle size={14} className="text-slate-500" />
           Paste Feed Content
         </button>
 
         <button
           onClick={onSimulateIngest}
           disabled={isIngesting}
-          className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50 cursor-pointer shadow-xs"
+          className="inline-flex items-center gap-2 px-4-5 py-2 text-xs font-semibold text-white bg-brand-600 border border-transparent rounded-full hover:bg-brand-700 transition-all disabled:opacity-50 cursor-pointer shadow-sm font-sans"
         >
           <Sparkles size={14} className={isIngesting ? "animate-spin" : ""} />
           {isIngesting ? "Scavenging Past 24h..." : "Simulate Live Scavenge"}

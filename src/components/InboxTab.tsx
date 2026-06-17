@@ -31,7 +31,7 @@ export default function InboxTab({ emails }: InboxTabProps) {
       <div className="border-r border-slate-200 bg-slate-50 flex flex-col h-full">
         <div className="p-4 border-b border-slate-200 bg-white">
           <h3 className="font-bold text-xs text-slate-900 uppercase tracking-widest flex items-center gap-2">
-            <Mail size={16} className="text-blue-600" />
+            <Mail size={16} className="text-brand-600" />
             Inbox & Dispatch History
           </h3>
           <p className="text-[11px] text-slate-500 mt-0.5 font-medium">Simulated logs and real SMTP transmissions</p>
@@ -47,13 +47,13 @@ export default function InboxTab({ emails }: InboxTabProps) {
                   key={email.id}
                   onClick={() => setSelectedEmail(email)}
                   className={`w-full text-left p-4 transition-all hover:bg-white cursor-pointer ${
-                    isActive ? 'bg-white border-l-4 border-blue-600 pl-3' : ''
+                    isActive ? 'bg-white border-l-4 border-brand-600 pl-3' : ''
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className={`text-[9px] font-mono font-bold tracking-tight px-1.5 py-0.5 rounded-sm ${
+                    <span className={`text-[9px] font-mono font-bold tracking-tight px-2 py-0.5 rounded-full ${
                       email.status === 'delivered'
-                        ? 'bg-blue-50 text-blue-700 border border-blue-100'
+                        ? 'bg-brand-50 text-brand-700 border border-brand-100'
                         : email.status === 'simulated'
                         ? 'bg-slate-100 text-slate-705 border border-slate-200'
                         : 'bg-red-50 text-red-700 border border-red-100'

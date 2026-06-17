@@ -27,7 +27,7 @@ export default function PasteModal({ isOpen, onClose, onImport, isImporting }: P
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FileText size={18} className="text-blue-600" />
+            <FileText size={18} className="text-brand-600" />
             <h3 className="font-bold text-xs text-slate-900 uppercase tracking-widest">Paste Raw LinkedIn Feed Content</h3>
           </div>
           <button
@@ -53,14 +53,14 @@ export default function PasteModal({ isOpen, onClose, onImport, isImporting }: P
             value={pastedText}
             onChange={(e) => setPastedText(e.target.value)}
             disabled={isImporting}
-            className="w-full h-44 px-3.5 py-3 border border-slate-200 rounded-lg text-xs focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-sans leading-relaxed text-slate-800 bg-slate-50/20"
+            className="w-full h-44 px-4 py-3 border border-slate-250 rounded-xl text-xs focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-sans leading-relaxed text-slate-800 bg-slate-50/20"
             placeholder="Sarah Jenkins | Director of AI at TechCorp Ex-Brain...&#10;Incredible progress on local workflows! We just finished integrating React arrays..."
             required
           />
 
           {/* Guidelines info */}
           <div className="bg-slate-50 rounded-lg p-3 text-[10px] text-slate-500 flex items-start gap-1.5 leading-relaxed border border-slate-200">
-            <BrainCircuit size={14} className="text-blue-600 mt-0.5 flex-shrink-0" />
+            <BrainCircuit size={14} className="text-brand-600 mt-0.5 flex-shrink-0" />
             <div>
               <span className="font-bold text-slate-900 uppercase tracking-wider text-[9px]">Advanced AI Splitting:</span>
               <p className="mt-0.5 font-medium">You can paste multiple posts stacked together. The translation engine identifies block borders, authors, and metadata seamlessly, adding multiple discrete elements directly, saving substantial manual entry time.</p>
@@ -72,14 +72,14 @@ export default function PasteModal({ isOpen, onClose, onImport, isImporting }: P
             <button
               onClick={onClose}
               type="button"
-              className="px-3.5 py-2 border border-slate-200 text-xs font-bold uppercase tracking-wide text-slate-600 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer"
+              className="px-4 py-2 border border-slate-250 text-xs font-bold uppercase tracking-wide text-slate-600 rounded-full hover:bg-slate-50 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isImporting || !pastedText.trim()}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold uppercase tracking-wide text-[10px] rounded-lg transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-sm"
+              className="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white font-bold uppercase tracking-wide text-[10px] rounded-full transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-sm"
             >
               {isImporting ? (
                 <>

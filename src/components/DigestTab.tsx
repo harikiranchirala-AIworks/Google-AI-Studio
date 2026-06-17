@@ -35,20 +35,20 @@ export default function DigestTab({
   return (
     <div className="space-y-6">
       {/* Action card for generating digest */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
         <div>
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Sparkles size={18} className="text-blue-600 animate-pulse" />
+            <Sparkles size={18} className="text-brand-600 animate-pulse" />
             AI MORNING DIGEST HUB
           </h2>
           <p className="text-xs text-slate-500 mt-1">
-            Synthesize all ingested updates from the past 24 hours into a structured daily briefing utilizing <span className="font-semibold text-slate-800">{settings.aiProvider === 'gemini' ? 'Google Gemini 3.5 Flash' : 'OpenAI ChatGPT'}</span>.
+            Synthesize all ingested updates from the past 24 hours into a structured daily briefing utilizing <span className="font-semibold text-slate-800">{settings.aiProvider === 'gemini' ? 'Google Gemini 2.5 Flash' : 'OpenAI ChatGPT'}</span>.
           </p>
         </div>
         <button
           onClick={onGenerateDigest}
           disabled={isGenerating}
-          className="md:self-center inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors disabled:opacity-50 cursor-pointer shadow-xs"
+          className="md:self-center inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-brand-600 rounded-full hover:bg-brand-700 transition-colors disabled:opacity-50 cursor-pointer shadow-sm"
         >
           {isGenerating ? (
             <>
@@ -70,16 +70,16 @@ export default function DigestTab({
           <div className="lg:col-span-2 space-y-6">
             
             {/* Header info & email action */}
-            <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-6">
+            <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-6 shadow-xs">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-slate-200">
                 <div className="flex items-start gap-3">
-                  <div className="bg-blue-50 text-blue-600 p-2 ml-1 rounded-sm shrink-0 mt-0.5 border border-blue-100">
+                  <div className="bg-brand-50 text-brand-600 p-2 ml-1 rounded-lg shrink-0 mt-0.5 border border-brand-100">
                     <Calendar size={18} />
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Wednesday, Oct 25 • Past 24 Hours Analysis</span>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight mt-1">{digest.date}</h1>
-                    <p className="text-xs text-slate-500 mt-1">Briefing Summary ID: <span className="font-mono">{digest.id.substring(0, 11)}</span></p>
+                    <p className="text-xs text-slate-500 mt-1">Briefing Summary ID: <span className="font-mono text-brand-600 bg-brand-50/50 px-1.5 py-0.5 rounded-sm">{digest.id.substring(0, 11)}</span></p>
                   </div>
                 </div>
 
@@ -93,7 +93,7 @@ export default function DigestTab({
                   <button
                     onClick={() => onSendEmail(digest.id)}
                     disabled={isEmailing}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-brand-700 bg-brand-50 border border-brand-200 rounded-full hover:bg-brand-100/80 transition-colors cursor-pointer"
                   >
                     <Mail size={14} className={isEmailing ? "animate-spin" : ""} />
                     {isEmailing ? "Dispatching..." : "Email Me Digest"}
@@ -101,7 +101,7 @@ export default function DigestTab({
                 </div>
 
                 <div className="text-right shrink-0 hidden sm:block">
-                  <span className="text-4xl font-light text-blue-600 leading-none block">
+                  <span className="text-4xl font-light text-brand-600 leading-none block font-display font-medium">
                     {postsCount !== undefined ? postsCount : 14}
                   </span>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Updates Scanned</p>
@@ -116,9 +116,9 @@ export default function DigestTab({
               )}
 
               {/* Executive summary block */}
-              <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-r-lg">
-                <strong className="font-bold text-blue-900 text-xs uppercase tracking-wider block mb-1">Quick Sync & Briefing</strong>
-                <p className="text-sm text-blue-900 leading-relaxed font-sans">
+              <div className="p-4 bg-brand-50 border-l-4 border-brand-600 rounded-lg">
+                <strong className="font-bold text-brand-900 text-xs uppercase tracking-wider block mb-1">Quick Sync & Briefing</strong>
+                <p className="text-sm text-brand-900 leading-relaxed font-sans">
                   "{digest.overallSummary}"
                 </p>
               </div>
@@ -126,9 +126,9 @@ export default function DigestTab({
               {/* Categories */}
               <div className="space-y-6 pt-2">
                 {/* Jobs */}
-                <div className="group border border-slate-200 rounded-xl p-5 hover:border-blue-300 hover:bg-slate-50/50 transition-all">
+                <div className="group border border-slate-200 rounded-xl p-5 hover:border-brand-300 hover:bg-brand-50/20 transition-all">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-brand-50 text-brand-700 border border-brand-100">
                       💼 Jobs & Job Opportunities
                     </div>
                   </div>
@@ -138,9 +138,9 @@ export default function DigestTab({
                 </div>
 
                 {/* AI */}
-                <div className="group border border-slate-200 rounded-xl p-5 hover:border-blue-300 hover:bg-slate-50/50 transition-all">
+                <div className="group border border-slate-200 rounded-xl p-5 hover:border-brand-300 hover:bg-brand-50/20 transition-all">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-brand-50 text-brand-700 border border-brand-100">
                       🤖 Artificial Intelligence & Tech Hubs
                     </div>
                   </div>
@@ -150,13 +150,13 @@ export default function DigestTab({
                 </div>
 
                 {/* General */}
-                <div className="group border border-slate-200 rounded-xl p-5 hover:border-blue-300 hover:bg-slate-50/50 transition-all">
+                <div className="group border border-slate-200 rounded-xl p-5 hover:border-brand-300 hover:bg-slate-50/50 transition-all">
                   <div className="flex items-center justify-between mb-3">
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-slate-100 text-slate-705 border border-slate-200">
                       📢 General updates
                     </div>
                   </div>
-                  <p className="text-slate-750 text-sm leading-relaxed">
+                  <p className="text-slate-755 text-sm leading-relaxed">
                     {digest.byCategory.general || "No structural general tech updates recorded in past 24 hours."}
                   </p>
                 </div>
@@ -166,9 +166,9 @@ export default function DigestTab({
 
           {/* Sidebar - Actionable Insights Column */}
           <div className="space-y-6">
-            <div className="bg-white border border-slate-200 rounded-xl p-6">
+            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
               <div className="flex items-center gap-2 pb-4 border-b border-slate-200 mb-4">
-                <div className="bg-blue-50 text-blue-600 p-1.5 rounded-sm border border-blue-100">
+                <div className="bg-brand-50 text-brand-600 p-1.5 rounded-lg border border-brand-100">
                   <CheckSquare size={15} />
                 </div>
                 <h3 className="font-bold text-xs text-slate-800 uppercase tracking-widest">Actionable Takeaways</h3>
@@ -188,13 +188,13 @@ export default function DigestTab({
                         onClick={() => toggleInsight(index)}
                         className={`w-full text-left flex items-start gap-3 p-3 rounded-lg border text-xs transition-all cursor-pointer ${
                           isCompleted
-                            ? 'bg-blue-50/30 border-blue-150/55 text-slate-400 line-through'
-                            : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50/50'
+                            ? 'bg-brand-50/25 border-brand-100/50 text-slate-400 line-through'
+                            : 'bg-white border-slate-200 text-slate-700 hover:border-brand-200 hover:bg-brand-50/10'
                         }`}
                       >
                         <div className="mt-0.5 flex-shrink-0">
                           {isCompleted ? (
-                            <CheckCircle2 size={15} className="text-blue-500" />
+                            <CheckCircle2 size={15} className="text-brand-500" />
                           ) : (
                             <div className="h-3.5 w-3.5 rounded border border-slate-300 bg-slate-50" />
                           )}
@@ -210,16 +210,16 @@ export default function DigestTab({
               
               <div className="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500">
                 <span>Completed Tasks</span>
-                <span className="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-sm border border-blue-100">
+                <span className="font-mono font-bold text-brand-700 bg-brand-50 px-2.5 py-0.5 rounded-full border border-brand-100">
                   {Object.values(completedInsights).filter(Boolean).length} / {digest.actionableInsights?.length || 0}
                 </span>
               </div>
             </div>
 
             {/* Keyword configuration summary status */}
-            <div className="bg-slate-900 text-white p-5 shadow-xl rounded-xl">
-              <h2 className="text-xs font-black uppercase tracking-tighter text-blue-400 mb-4 flex items-center gap-1.5 leading-none">
-                <AlertCircle size={14} className="text-blue-400 shrink-0" />
+            <div className="bg-slate-900 text-white p-5 shadow-lg rounded-xl">
+              <h2 className="text-xs font-black uppercase tracking-tighter text-brand-200 mb-4 flex items-center gap-1.5 leading-none">
+                <AlertCircle size={14} className="text-brand-200 shrink-0" />
                 Keyword Alerts
               </h2>
               <p className="text-[11px] text-slate-300 leading-relaxed mb-4">
@@ -227,7 +227,7 @@ export default function DigestTab({
               </p>
               <div className="flex flex-wrap gap-2">
                 {settings.keywords.map((kw, i) => (
-                  <span key={i} className="px-3 py-1 bg-slate-800 border border-slate-700 text-blue-300 text-[11px] font-medium rounded-full">
+                  <span key={i} className="px-3 py-1 bg-slate-800 border border-slate-700 text-brand-200 text-[11px] font-medium rounded-full">
                     #{kw}
                   </span>
                 ))}
@@ -248,7 +248,7 @@ export default function DigestTab({
           <button
             onClick={onGenerateDigest}
             disabled={isGenerating}
-            className="mt-6 inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer shadow-sm"
+            className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-brand-600 rounded-full hover:bg-brand-700 transition-colors disabled:opacity-50 cursor-pointer shadow-sm"
           >
             <Sparkles size={13} className={isGenerating ? "animate-spin" : ""} />
             {isGenerating ? "Synthesizing Briefings..." : "Generate Digest Now"}

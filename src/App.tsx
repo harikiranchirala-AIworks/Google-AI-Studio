@@ -520,14 +520,14 @@ export default function App() {
           ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
           {/* Workspace Title Card */}
-          <div className="px-6 py-5 border-b border-slate-200">
+          <div className="px-6 py-5 border-b border-slate-200 bg-slate-50/50">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-sm flex items-center justify-center text-white font-bold select-none shrink-0">
-                L
+              <div className="w-8 h-8 bg-brand-600 rounded-sm flex items-center justify-center text-white font-black text-sm select-none shrink-0 shadow-sm">
+                in
               </div>
               <div>
-                <h2 className="font-bold text-sm tracking-tight text-slate-800 uppercase leading-none">LinkedIn Intel</h2>
-                <span className="font-mono text-[9px] uppercase tracking-widest text-slate-400 mt-1 block">Digest Hub v1.4</span>
+                <h2 className="font-bold text-xs tracking-tight text-slate-800 uppercase leading-none">LinkedIn Intel</h2>
+                <span className="font-mono text-[9px] uppercase tracking-widest text-slate-400 mt-1 block">Digest Hub v2.0</span>
               </div>
             </div>
           </div>
@@ -545,17 +545,17 @@ export default function App() {
                     setMobileMenuOpen(false);
                   }}
                   className={`
-                    w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border transition-all text-left cursor-pointer
+                    w-full flex items-center gap-3 px-3.5 py-2.5 rounded-full border transition-all text-left cursor-pointer
                     ${isActive 
-                      ? 'bg-blue-50 border-blue-200 text-blue-700 font-bold shadow-xs' 
+                      ? 'bg-brand-50 border-brand-200 text-brand-700 font-bold shadow-sm' 
                       : 'bg-white border-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                     }
                   `}
                 >
-                  <Icon size={15} className={isActive ? "text-blue-600" : "text-slate-400"} />
+                  <Icon size={15} className={isActive ? "text-brand-600" : "text-slate-400"} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs tracking-tight">{item.label}</p>
-                    <p className={`text-[9px] font-mono whitespace-nowrap overflow-hidden text-ellipsis mt-0.5 ${isActive ? 'text-blue-600/80' : 'text-slate-400'}`}>
+                    <p className={`text-[9px] font-mono whitespace-nowrap overflow-hidden text-ellipsis mt-0.5 ${isActive ? 'text-brand-600/80' : 'text-slate-400'}`}>
                       {item.detail}
                     </p>
                   </div>

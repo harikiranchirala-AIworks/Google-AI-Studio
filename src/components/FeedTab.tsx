@@ -54,7 +54,7 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
   return (
     <div className="space-y-6">
       {/* Search and Filters Segment */}
-      <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-4">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-xs">
         <div className="flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
@@ -63,27 +63,27 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
               placeholder="Search feed updates by author, content, or matched headlines..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-sans"
+              className="w-full pl-9 pr-4 py-2 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-sans bg-slate-50/55"
             />
           </div>
           
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all cursor-pointer ${
                 selectedCategory === 'all'
-                  ? 'border-slate-900 bg-slate-900 text-white shadow-xs'
-                  : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'
+                  ? 'border-brand-600 bg-brand-600 text-white shadow-sm'
+                  : 'border-slate-250 bg-slate-50 text-slate-500 hover:bg-slate-100'
               }`}
             >
               All Scrapes ({posts.length})
             </button>
             <button
               onClick={() => setSelectedCategory('jobs')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border flex items-center gap-1 transition-all cursor-pointer ${
                 selectedCategory === 'jobs'
-                  ? 'border-blue-200 bg-blue-50 text-blue-700 shadow-xs'
-                  : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'
+                  ? 'border-brand-200 bg-brand-50 text-brand-700 shadow-sm'
+                  : 'border-slate-250 bg-slate-50 text-slate-500 hover:bg-slate-100'
               }`}
             >
               <Briefcase size={12} />
@@ -91,10 +91,10 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
             </button>
             <button
               onClick={() => setSelectedCategory('ai')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border flex items-center gap-1 transition-all cursor-pointer ${
                 selectedCategory === 'ai'
-                  ? 'border-blue-200 bg-blue-50 text-blue-700 shadow-xs'
-                  : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'
+                  ? 'border-brand-200 bg-brand-50 text-brand-700 shadow-sm'
+                  : 'border-slate-250 bg-slate-50 text-slate-500 hover:bg-slate-100'
               }`}
             >
               <Brain size={12} />
@@ -102,10 +102,10 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
             </button>
             <button
               onClick={() => setSelectedCategory('general')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border flex items-center gap-1 transition-all cursor-pointer ${
                 selectedCategory === 'general'
-                  ? 'border-slate-900 bg-slate-900 text-white shadow-xs'
-                  : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'
+                  ? 'border-brand-600 bg-brand-600 text-white shadow-sm'
+                  : 'border-slate-250 bg-slate-50 text-slate-500 hover:bg-slate-100'
               }`}
             >
               <Network size={12} />
@@ -122,9 +122,9 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
           </span>
           <button
             onClick={() => setSelectedKeywordFilter(null)}
-            className={`px-2.5 py-1 text-[10px] font-mono rounded-full hover:bg-slate-100 cursor-pointer border ${
+            className={`px-3 py-1 text-[10px] font-mono rounded-full hover:bg-slate-100 cursor-pointer border ${
               selectedKeywordFilter === null
-                ? 'bg-blue-50 border-blue-200 text-blue-700 font-bold'
+                ? 'bg-brand-50 border-brand-200 text-brand-700 font-bold'
                 : 'bg-white border-slate-200 text-slate-500'
             }`}
           >
@@ -136,10 +136,10 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
               <button
                 key={idx}
                 onClick={() => setSelectedKeywordFilter(kw)}
-                className={`px-2.5 py-1 text-[10px] font-mono rounded-full border transition-all cursor-pointer ${
+                className={`px-3 py-1 text-[10px] font-mono rounded-full border transition-all cursor-pointer ${
                   selectedKeywordFilter === kw
-                    ? 'bg-blue-600 border-blue-700 text-white font-bold'
-                    : 'bg-blue-50 border-blue-200 text-blue-700'
+                    ? 'bg-brand-600 border-brand-700 text-white font-bold'
+                    : 'bg-brand-50 border-brand-200 text-brand-700'
                 }`}
               >
                 #{kw} ({matchCount})
@@ -195,17 +195,17 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
                   {/* Matched Keyword pills */}
                   <div className="mt-4 flex flex-wrap gap-1.5">
                     {post.matchedKeywords.map((kw, i) => (
-                      <span key={i} className="text-[9px] font-mono font-bold tracking-tight px-2 py-0.5 rounded-sm bg-blue-50 border border-blue-200 text-blue-700 uppercase">
+                      <span key={i} className="text-[9px] font-mono font-bold tracking-tight px-2.5 py-0.5 rounded-full bg-brand-50 border border-brand-200 text-brand-705 uppercase">
                         ✨ Alert: {kw}
                       </span>
                     ))}
                     {post.category === 'jobs' && (
-                      <span className="text-[9px] font-mono font-bold tracking-tight px-2 py-0.5 rounded-sm bg-orange-50 border border-orange-100 text-orange-700 uppercase">
+                      <span className="text-[9px] font-mono font-bold tracking-tight px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-250 text-amber-800 uppercase">
                         💼 Job Opening
                       </span>
                     )}
                     {post.category === 'ai' && (
-                      <span className="text-[9px] font-mono font-bold tracking-tight px-2 py-0.5 rounded-sm bg-emerald-50 border border-emerald-100 text-emerald-700 uppercase">
+                      <span className="text-[9px] font-mono font-bold tracking-tight px-2.5 py-0.5 rounded-full bg-teal-50 border border-teal-200 text-teal-800 uppercase">
                         🤖 Tech Trend
                       </span>
                     )}
@@ -215,7 +215,7 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
                 {/* Analytical Action insights derived */}
                 <div className="mt-4 pt-3 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
                   <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
-                    <span className="font-bold text-[10px] uppercase text-blue-600 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded-sm tracking-widest">Takeaway</span>
+                    <span className="font-bold text-[10px] uppercase text-brand-600 bg-brand-50 border border-brand-100 px-2.5 py-0.5 rounded-full tracking-wider">Takeaway</span>
                     <span className="font-medium italic">"{post.insights}"</span>
                   </div>
                   
@@ -223,7 +223,7 @@ export default function FeedTab({ posts, onDeletePost, settings }: FeedTabProps)
                     href={post.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="self-end sm:self-center text-[10px] font-bold text-blue-600 hover:text-blue-800 inline-flex items-center gap-0.5 transition-colors underline uppercase tracking-tight"
+                    className="self-end sm:self-center text-[10px] font-bold text-brand-650 hover:text-brand-800 inline-flex items-center gap-0.5 transition-colors underline uppercase tracking-tight"
                   >
                     View Post
                     <ArrowUpRight size={13} />

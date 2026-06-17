@@ -34,7 +34,7 @@ export default function InsightsTab({ posts }: InsightsTabProps) {
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Past 24 Hours Total Scraped</p>
           <div className="flex items-baseline gap-2 mt-2">
             <span className="text-3xl font-bold text-slate-900 tracking-tight">{totalCount}</span>
-            <span className="text-[10px] text-blue-600 font-bold bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded-sm uppercase tracking-wider">Active Pulse</span>
+            <span className="text-[10px] text-brand-605 font-bold bg-brand-50 border border-brand-100 px-2 py-0.5 rounded-full uppercase tracking-wider">Active Pulse</span>
           </div>
           <p className="text-[11px] text-slate-500 mt-1">LinkedIn updates processed</p>
         </div>
@@ -42,8 +42,8 @@ export default function InsightsTab({ posts }: InsightsTabProps) {
         <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Active Job Postings</p>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-3xl font-bold text-blue-600 tracking-tight">{jobsCount}</span>
-            <span className="text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-150 px-1.5 py-0.5 rounded-sm">{jobsPercent}%</span>
+            <span className="text-3xl font-bold text-brand-600 tracking-tight">{jobsCount}</span>
+            <span className="text-[10px] font-bold bg-brand-50 text-brand-700 border border-brand-200 px-2   py-0.5 rounded-full">{jobsPercent}%</span>
           </div>
           <p className="text-[11px] text-slate-500 mt-1">Matched salary profiles & openings</p>
         </div>
@@ -51,8 +51,8 @@ export default function InsightsTab({ posts }: InsightsTabProps) {
         <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">AI Core Breakthroughs</p>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-3xl font-bold text-blue-600 tracking-tight">{aiCount}</span>
-            <span className="text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-150 px-1.5 py-0.5 rounded-sm">{aiPercent}%</span>
+            <span className="text-3xl font-bold text-brand-600 tracking-tight">{aiCount}</span>
+            <span className="text-[10px] font-bold bg-brand-50 text-brand-700 border border-brand-200 px-2   py-0.5 rounded-full">{aiPercent}%</span>
           </div>
           <p className="text-[11px] text-slate-500 mt-1">Framework benchmarks & paradigms</p>
         </div>
@@ -81,31 +81,31 @@ export default function InsightsTab({ posts }: InsightsTabProps) {
             {/* Custom visual progress bars */}
             <div>
               <div className="flex justify-between text-xs font-bold text-slate-700 mb-1 leading-none">
-                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-blue-600" /> Jobs Updates</span>
+                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-brand-600" /> Jobs Updates</span>
                 <span>{jobsCount} posts ({jobsPercent}%)</span>
               </div>
-              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/50">
-                <div className="bg-blue-600 h-full rounded-full" style={{ width: `${jobsPercent}%` }} />
+              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-201">
+                <div className="bg-brand-600 h-full rounded-full" style={{ width: `${jobsPercent}%` }} />
               </div>
             </div>
 
             <div>
               <div className="flex justify-between text-xs font-bold text-slate-700 mb-1 leading-none">
-                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-blue-500" /> AI Breakthroughs</span>
+                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-brand-200" /> AI Breakthroughs</span>
                 <span>{aiCount} posts ({aiPercent}%)</span>
               </div>
-              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/50">
-                <div className="bg-blue-500 h-full rounded-full" style={{ width: `${aiPercent}%` }} />
+              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-201">
+                <div className="bg-brand-205 h-full rounded-full" style={{ width: `${aiPercent}%` }} />
               </div>
             </div>
 
             <div>
               <div className="flex justify-between text-xs font-bold text-slate-700 mb-1 leading-none">
-                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-slate-500" /> General Trends</span>
+                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-slate-400" /> General Trends</span>
                 <span>{generalCount} posts ({generalPercent}%)</span>
               </div>
-              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/50">
-                <div className="bg-slate-500 h-full rounded-full" style={{ width: `${generalPercent}%` }} />
+              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-201">
+                <div className="bg-slate-450 h-full rounded-full" style={{ width: `${generalPercent}%` }} />
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function InsightsTab({ posts }: InsightsTabProps) {
           <div className="pt-4 border-t border-slate-200 space-y-4">
             <div>
               <h4 className="text-[10px] font-bold text-slate-950 flex items-center gap-1.5 uppercase tracking-wider">
-                <TrendingUp size={14} className="text-blue-600" />
+                <TrendingUp size={14} className="text-brand-600" />
                 Keyword Interest Frequency
               </h4>
               <p className="text-[11px] text-slate-500 mt-0.5">Most matched keywords across ingested feeds</p>
@@ -125,12 +125,12 @@ export default function InsightsTab({ posts }: InsightsTabProps) {
                   const kwPercent = Math.min(100, Math.round((f / Math.max(1, totalCount)) * 100));
                   return (
                     <div key={idx} className="flex items-center justify-between text-xs">
-                      <span className="font-mono text-blue-700 bg-blue-50 border border-blue-150 px-2 py-0.5 rounded text-[10px]">
+                      <span className="font-mono text-brand-700 bg-brand-50 border border-brand-200 px-2.5 py-0.5 rounded-full text-[10px]">
                         #{kw}
                       </span>
                       <div className="flex items-center gap-2 w-1/2">
-                        <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                          <div className="bg-blue-600 h-full rounded-full" style={{ width: `${kwPercent}%` }} />
+                        <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden border border-slate-150">
+                          <div className="bg-brand-600 h-full rounded-full" style={{ width: `${kwPercent}%` }} />
                         </div>
                         <span className="font-bold text-slate-600 text-[11px] w-6 text-right">{f}x</span>
                       </div>
@@ -158,11 +158,11 @@ export default function InsightsTab({ posts }: InsightsTabProps) {
               posts.map((post) => (
                 <div key={post.id} className="border border-slate-200 rounded-lg p-4 flex flex-col justify-between hover:border-slate-300 hover:bg-slate-50/50 transition-all gap-3.5">
                   <div className="flex items-start gap-3">
-                    <div className={`p-2 rounded-md flex-shrink-0 border ${
+                    <div className={`p-2 rounded-lg flex-shrink-0 border ${
                       post.category === 'jobs' 
-                        ? 'bg-blue-50 text-blue-600 border-blue-100' 
+                        ? 'bg-brand-50 text-brand-600 border-brand-100' 
                         : post.category === 'ai' 
-                        ? 'bg-blue-50 text-blue-600 border-blue-100' 
+                        ? 'bg-brand-50 text-brand-600 border-brand-100' 
                         : 'bg-slate-100 text-slate-600 border-slate-200'
                     }`}>
                       {post.category === 'jobs' ? <Briefcase size={16} /> : post.category === 'ai' ? <Cpu size={16} /> : <Network size={16} />}
@@ -195,7 +195,7 @@ export default function InsightsTab({ posts }: InsightsTabProps) {
                       href={post.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-0.5 font-bold text-blue-600 hover:text-blue-800 transition-all self-end uppercase text-[10px] underline tracking-tight"
+                      className="inline-flex items-center gap-0.5 font-bold text-brand-600 hover:text-brand-700 transition-all self-end uppercase text-[10px] underline tracking-tight"
                     >
                       Original Post Link
                       <ArrowUpRight size={13} />

@@ -7,20 +7,20 @@
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   
-  --color-brand-50: #eff6ff;
-  --color-brand-100: #dbeafe;
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4ed8;
-  --color-brand-800: #1e40af;
-  --color-brand-950: #172554;
+  --color-brand-50: #eef3f8;
+  --color-brand-100: #d0e1f9;
+  --color-brand-200: #a0c4f4;
+  --color-brand-500: #0a66c2;
+  --color-brand-600: #0a66c2;
+  --color-brand-700: #004182;
+  --color-brand-800: #002244;
+  --color-brand-950: #001222;
 }
 
 body {
-
-  
   font-family: var(--font-sans);
-  background-color: #fcfdfd;
-  color: #111827;
+  background-color: #f3f2ef;
+  color: #191919;
 }
 
 /* Custom scrollbar adjustments for a clean dashboard */

@@ -89,14 +89,14 @@ export default function SettingsTab({
                 LinkedIn Profile Identifier
               </label>
               <div className="flex rounded-md shadow-xs max-w-md">
-                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-200 bg-slate-50 text-slate-400 text-xs font-mono">
+                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-200 bg-slate-105 text-slate-400 text-xs font-mono select-none">
                   linkedin.com/in/
                 </span>
                 <input
                   type="text"
                   value={profileId}
                   onChange={(e) => setProfileId(e.target.value)}
-                  className="flex-1 min-w-0 block w-full px-3 py-2 text-xs border border-slate-200 rounded-r-md focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-sans"
+                  className="flex-1 min-w-0 block w-full px-3 py-2 text-xs border border-slate-200 rounded-r-md focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-sans"
                   placeholder="your-linkedin-id"
                 />
               </div>
@@ -116,11 +116,11 @@ export default function SettingsTab({
                   placeholder="e.g. Next.js, OpenAI, Remote, Hiring"
                   value={newKeyword}
                   onChange={(e) => setNewKeyword(e.target.value)}
-                  className="flex-1 px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-sans"
+                  className="flex-1 px-3 py-1.5 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-sans bg-slate-50/50"
                 />
                 <button
                   type="submit"
-                  className="px-3 py-1.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors inline-flex items-center gap-1 text-xs font-bold uppercase tracking-tight cursor-pointer"
+                  className="px-4 py-1.5 bg-brand-600 text-white rounded-full hover:bg-brand-700 transition-colors inline-flex items-center gap-1 text-xs font-bold uppercase tracking-tight cursor-pointer shadow-sm"
                 >
                   <Plus size={14} /> Add Alert
                 </button>
@@ -130,12 +130,12 @@ export default function SettingsTab({
                 {keywords.map((kw) => (
                   <span
                     key={kw}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-sm text-xs font-mono font-bold bg-blue-50 border border-blue-200 text-blue-700 uppercase"
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-50 border border-brand-200 text-brand-700 uppercase"
                   >
                     #{kw}
                     <button
                       onClick={() => handleRemoveKeyword(kw)}
-                      className="text-blue-400 hover:text-blue-700 rounded-full transition-colors cursor-pointer"
+                      className="text-brand-400 hover:text-brand-700 rounded-full transition-colors cursor-pointer"
                     >
                       <X size={12} />
                     </button>
@@ -167,7 +167,7 @@ export default function SettingsTab({
                   onClick={() => setAiProvider('gemini')}
                   className={`p-3 border rounded-lg text-left flex flex-col justify-between transition-all cursor-pointer ${
                     aiProvider === 'gemini'
-                      ? 'border-blue-600 bg-blue-50/25 ring-1 ring-blue-600'
+                      ? 'border-brand-600 bg-brand-50/25 ring-1 ring-brand-600'
                       : 'border-slate-200 hover:bg-slate-50/50'
                   }`}
                 >
@@ -179,7 +179,7 @@ export default function SettingsTab({
                   onClick={() => setAiProvider('openai')}
                   className={`p-3 border rounded-lg text-left flex flex-col justify-between transition-all cursor-pointer ${
                     aiProvider === 'openai'
-                      ? 'border-blue-600 bg-blue-50/25 ring-1 ring-blue-600'
+                      ? 'border-brand-600 bg-brand-50/25 ring-1 ring-brand-600'
                       : 'border-slate-200 hover:bg-slate-50/50'
                   }`}
                 >
@@ -201,7 +201,7 @@ export default function SettingsTab({
                     type={showPassword ? "text" : "password"}
                     value={geminiKey}
                     onChange={(e) => setGeminiKey(e.target.value)}
-                    className="w-full pl-3 pr-10 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-mono"
+                    className="w-full pl-3 pr-10 py-2 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-mono"
                     placeholder="AIzaSy................................"
                   />
                   <button
@@ -230,12 +230,12 @@ export default function SettingsTab({
                     type={showPassword ? "text" : "password"}
                     value={openaiKey}
                     onChange={(e) => setOpenaiKey(e.target.value)}
-                    className="w-full pl-3 pr-10 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-mono"
+                    className="w-full pl-3 pr-10 py-2 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-mono"
                     placeholder="sk-proj-................................"
                   />
                   <button
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                    className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 cursor-pointer"
                   >
                     {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
@@ -257,7 +257,7 @@ export default function SettingsTab({
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold uppercase tracking-wide text-[10px] rounded-lg transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-sm"
+              className="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold uppercase tracking-wide text-[10px] rounded-full transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-sm"
             >
               <Save size={14} />
               {isSaving ? "Saving Config..." : "Save Settings"}
@@ -272,7 +272,7 @@ export default function SettingsTab({
           <div className="flex items-center justify-between pb-3 border-b border-slate-200">
             <div>
               <h3 className="font-bold text-xs text-slate-900 uppercase tracking-widest flex items-center gap-1.5">
-                <Mail size={16} className="text-blue-600" />
+                <Mail size={16} className="text-brand-600" />
                 SMTP Email Delivery
               </h3>
               <p className="text-[10px] text-slate-500 mt-0.5 font-medium">Control how morning digests reach your inbox</p>
@@ -284,7 +284,7 @@ export default function SettingsTab({
                 onChange={(e) => setSmtpEnabled(e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-9 h-5 bg-slate-200 peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+              <div className="w-9 h-5 bg-slate-200 peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
             </label>
           </div>
 
@@ -298,10 +298,10 @@ export default function SettingsTab({
                 type="email"
                 value={emailRecipient}
                 onChange={(e) => setEmailRecipient(e.target.value)}
-                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-sans"
+                className="w-full px-4 py-2 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-sans bg-slate-50/50"
                 placeholder="your-email@example.com"
               />
-              <p className="text-[9px] text-slate-400 mt-1 font-medium">Recipient mail box where digest PDFs or HTML briefs are forwarded.</p>
+              <p className="text-[9px] text-slate-400 mt-1.5 font-medium">Recipient mail box where digest PDFs or HTML briefs are forwarded.</p>
             </div>
 
             {smtpEnabled ? (
@@ -315,7 +315,7 @@ export default function SettingsTab({
                     type="text"
                     value={smtpHost}
                     onChange={(e) => setSmtpHost(e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-sans"
+                    className="w-full px-4 py-2 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-sans"
                     placeholder="smtp.gmail.com"
                   />
                 </div>
@@ -329,7 +329,7 @@ export default function SettingsTab({
                     type="number"
                     value={smtpPort}
                     onChange={(e) => setSmtpPort(parseInt(e.target.value) || 465)}
-                    className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-sans"
+                    className="w-full px-4 py-2 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-sans"
                     placeholder="465"
                   />
                   <p className="text-[9px] text-slate-400 mt-1 font-medium">Common ports: 465 (SSL secure) or 587 (TLS safe).</p>
@@ -344,7 +344,7 @@ export default function SettingsTab({
                     type="text"
                     value={smtpUser}
                     onChange={(e) => setSmtpUser(e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-mono"
+                    className="w-full px-4 py-2 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-mono"
                     placeholder="username@gmail.com"
                   />
                 </div>
@@ -358,10 +358,10 @@ export default function SettingsTab({
                     type="password"
                     value={smtpPass}
                     onChange={(e) => setSmtpPass(e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-mono"
+                    className="w-full px-4 py-2 text-xs border border-slate-200 rounded-full focus:outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-600 font-mono"
                     placeholder="••••••••••••••••"
                   />
-                  <p className="text-[9px] text-amber-600 bg-amber-50 rounded-sm p-3 mt-1.5 flex items-start gap-1">
+                  <p className="text-[9px] text-amber-600 bg-amber-50 rounded-lg p-3 mt-1.5 flex items-start gap-1">
                     <AlertCircle size={12} className="flex-shrink-0 mt-0.5" />
                     <span>For Gmail, you MUST use a 16-character <strong>App Password</strong> generated under security panel rather than password root.</span>
                   </p>
@@ -373,7 +373,7 @@ export default function SettingsTab({
                     onClick={onTestSMTP}
                     disabled={isTestingSMTP || !smtpUser || !smtpPass}
                     type="button"
-                    className="w-full py-2 bg-slate-50 hover:bg-slate-100 disabled:opacity-50 text-slate-800 font-bold uppercase tracking-wider text-[10px] border border-slate-200 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+                    className="w-full py-2.5 bg-brand-50 hover:bg-brand-100 disabled:opacity-50 text-brand-800 font-bold uppercase tracking-wider text-[10px] border border-brand-200 rounded-full flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
                   >
                     {isTestingSMTP ? (
                       <>
@@ -387,7 +387,6 @@ export default function SettingsTab({
                       </>
                     )}
                   </button>
-
                   {smtpTestStatus && (
                     <div className={`p-3 rounded-lg text-xs mt-3 border ${
                       smtpTestStatus.success 
