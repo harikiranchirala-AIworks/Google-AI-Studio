@@ -22,6 +22,7 @@ export default function SettingsTab({
   const [profileId, setProfileId] = useState(settings.linkedinProfileId);
   const [emailRecipient, setEmailRecipient] = useState(settings.emailRecipient);
   const [openaiKey, setOpenaiKey] = useState(settings.openaiApiKey);
+  const [geminiKey, setGeminiKey] = useState(settings.geminiApiKey || '');
   const [aiProvider, setAiProvider] = useState(settings.aiProvider);
   const [newKeyword, setNewKeyword] = useState('');
   const [keywords, setKeywords] = useState<string[]>(settings.keywords);
@@ -56,6 +57,7 @@ export default function SettingsTab({
       keywords: keywords,
       emailRecipient: emailRecipient.trim() || 'your-email@example.com',
       openaiApiKey: openaiKey,
+      geminiApiKey: geminiKey,
       aiProvider: aiProvider,
       smtpEnabled,
       smtpHost: smtpHost.trim(),
@@ -186,6 +188,35 @@ export default function SettingsTab({
                 </button>
               </div>
             </div>
+
+            {/* Google Gemini API Key */}
+            {aiProvider === 'gemini' && (
+              <div className="space-y-1.5 max-w-md">
+                <label className="block text-xs font-bold text-slate-600 uppercase tracking-widest flex items-center justify-between">
+                  <span>Google Gemini Secret Key</span>
+                  <span className="text-[10px] text-slate-400 font-normal normal-case">Optional if set in .env</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={geminiKey}
+                    onChange={(e) => setGeminiKey(e.target.value)}
+                    className="w-full pl-3 pr-10 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-mono"
+                    placeholder="AIzaSy................................"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                </div>
+                <p className="text-[9px] text-slate-400 font-medium leading-relaxed">
+                  Required to run Standalone Browser AI summarization directly. Paste your free key from Google AI Studio. Stored strictly in your browser local storage.
+                </p>
+              </div>
+            )}
 
             {/* OpenAI API Key */}
             {aiProvider === 'openai' && (

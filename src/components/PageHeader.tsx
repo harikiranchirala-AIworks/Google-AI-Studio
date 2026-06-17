@@ -9,6 +9,8 @@ interface PageHeaderProps {
   onOpenPasteModal: () => void;
   onRefreshData: () => void;
   isRefreshing: boolean;
+  runMode: 'server' | 'browser';
+  onToggleRunMode: () => void;
 }
 
 export default function PageHeader({
@@ -18,7 +20,9 @@ export default function PageHeader({
   isIngesting,
   onOpenPasteModal,
   onRefreshData,
-  isRefreshing
+  isRefreshing,
+  runMode,
+  onToggleRunMode
 }: PageHeaderProps) {
   return (
     <header className="border-b border-slate-200 bg-white px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shrink-0">
@@ -38,6 +42,22 @@ export default function PageHeader({
       </div>
 
       <div className="flex flex-wrap items-center gap-2.5">
+        {/* Interactive App Run Mode Engine Badge/Toggle */}
+        <button
+          onClick={onToggleRunMode}
+          className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
+            runMode === 'server'
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100/70'
+              : 'bg-indigo-50 border-indigo-200 text-indigo-800 hover:bg-indigo-100/70'
+          }`}
+          title="Click to switch between Cloud Server Mode and Standalone Browser (localStorage) Mode"
+        >
+          <div className={`w-1.5 h-1.5 rounded-full ${runMode === 'server' ? 'bg-emerald-500 animate-pulse' : 'bg-indigo-500 animate-pulse'}`} />
+          <span className="font-mono text-[9px] uppercase font-bold tracking-widest">
+            {runMode === 'server' ? 'Mode: Cloud Server' : 'Mode: In-Browser'}
+          </span>
+        </button>
+
         <button
           onClick={onRefreshData}
           disabled={isRefreshing}

@@ -15,6 +15,14 @@ import ReadmeTab from './components/ReadmeTab';
 import PasteModal from './components/PasteModal';
 
 import { 
+  clientStore, 
+  clientImportPaste, 
+  clientSimulateIngest, 
+  clientGenerateDigest, 
+  clientTransmitEmailMock 
+} from './lib/clientAi';
+
+import { 
   Sparkles, 
   FileText, 
   TrendingUp, 
@@ -29,6 +37,9 @@ import {
 } from 'lucide-react';
 
 export default function App() {
+  // Application Running Architecture Mode
+  const [runMode, setRunMode] = useState<'server' | 'browser'>('server');
+
   // Sidebar / view tabs management
   const [activeTab, setActiveTab] = useState<'digest' | 'feed' | 'insights' | 'settings' | 'inbox' | 'readme'>('digest');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -43,6 +54,7 @@ export default function App() {
     keywords: [],
     emailRecipient: '',
     openaiApiKey: '',
+    geminiApiKey: '',
     aiProvider: 'gemini',
     smtpEnabled: false,
     smtpHost: '',
@@ -66,9 +78,95 @@ export default function App() {
   const [isTestingSMTP, setIsTestingSMTP] = useState(false);
   const [smtpTestResult, setSmtpTestResult] = useState<{ success: boolean; message: string } | null>(null);
 
-  // Initial DB loading
+  // Initial DB loading with Standalone Browser automatic fallback
   useEffect(() => {
     async function loadData() {
+      const savedMode = localStorage.getItem('linkedinIntel_runMode') as 'server' | 'browser' | null;
+      let targetMode: 'server' | 'browser' = savedMode || 'server';
+
+      if (targetMode === 'server') {
+        try {
+          const [settingsRes, feedRes, digestsRes, emailsRes] = await Promise.all([
+            fetch('/api/settings'),
+            fetch('/api/feed'),
+            fetch('/api/digests'),
+            fetch('/api/emails')
+          ]);
+
+          if (settingsRes.ok && feedRes.ok && digestsRes.ok && emailsRes.ok) {
+            setSettings(await settingsRes.json());
+            setPosts(await feedRes.json());
+            setDigests(await digestsRes.json());
+            setEmails(await emailsRes.json());
+            setRunMode('server');
+            setLoadingInitial(false);
+            return;
+          } else {
+            console.warn("Server side endpoint check returned error codes, falling back to local Browser store.");
+            targetMode = 'browser';
+          }
+        } catch (err) {
+          console.warn("Failed standard server operations. Activating local Browser Mode fallbacks...", err);
+          targetMode = 'browser';
+        }
+      }
+
+      if (targetMode === 'browser') {
+        setRunMode('browser');
+        localStorage.setItem('linkedinIntel_runMode', 'browser');
+        setSettings(clientStore.getSettings());
+        setPosts(clientStore.getPosts());
+        setDigests(clientStore.getDigests());
+        setEmails(clientStore.getEmails());
+      }
+      setLoadingInitial(false);
+    }
+    loadData();
+  }, []);
+
+  // Handle explicit manual toggling between Cloud and Browser engine modes
+  const handleToggleRunMode = () => {
+    const nextMode = runMode === 'server' ? 'browser' : 'server';
+    setRunMode(nextMode);
+    localStorage.setItem('linkedinIntel_runMode', nextMode);
+    
+    // Switch active state database instantly
+    if (nextMode === 'browser') {
+      setSettings(clientStore.getSettings());
+      setPosts(clientStore.getPosts());
+      setDigests(clientStore.getDigests());
+      setEmails(clientStore.getEmails());
+    } else {
+      setLoadingInitial(true);
+      // Reload from server API
+      const loadServerData = async () => {
+        try {
+          const [settingsRes, feedRes, digestsRes, emailsRes] = await Promise.all([
+            fetch('/api/settings'),
+            fetch('/api/feed'),
+            fetch('/api/digests'),
+            fetch('/api/emails')
+          ]);
+          if (settingsRes.ok) setSettings(await settingsRes.json());
+          if (feedRes.ok) setPosts(await feedRes.json());
+          if (digestsRes.ok) setDigests(await digestsRes.json());
+          if (emailsRes.ok) setEmails(await emailsRes.json());
+        } catch (e) {
+          alert("Could not connect to Cloud Server API. Ensure dev server container is active on port 3000.");
+          setRunMode('browser');
+          localStorage.setItem('linkedinIntel_runMode', 'browser');
+        } finally {
+          setLoadingInitial(false);
+        }
+      };
+      loadServerData();
+    }
+  };
+
+  // Manual synchronization to refresh all data states
+  const handleRefreshAllData = async () => {
+    setIsRefreshing(true);
+    if (runMode === 'server') {
       try {
         const [settingsRes, feedRes, digestsRes, emailsRes] = await Promise.all([
           fetch('/api/settings'),
@@ -77,164 +175,177 @@ export default function App() {
           fetch('/api/emails')
         ]);
 
-        if (settingsRes.ok) {
-          const s = await settingsRes.json();
-          setSettings(s);
-        }
-        if (feedRes.ok) {
-          const f = await feedRes.json();
-          setPosts(f);
-        }
-        if (digestsRes.ok) {
-          const d = await digestsRes.json();
-          setDigests(d);
-        }
-        if (emailsRes.ok) {
-          const em = await emailsRes.json();
-          setEmails(em);
-        }
+        if (settingsRes.ok) setSettings(await settingsRes.json());
+        if (feedRes.ok) setPosts(await feedRes.json());
+        if (digestsRes.ok) setDigests(await digestsRes.json());
+        if (emailsRes.ok) setEmails(await emailsRes.json());
       } catch (err) {
-        console.error("Error standard API fetching on initial bootstrap:", err);
+        console.error("Error manual refresh action:", err);
       } finally {
-        setLoadingInitial(false);
+        setIsRefreshing(false);
       }
-    }
-    loadData();
-  }, []);
-
-  // Manual synchronization to refresh all data states
-  const handleRefreshAllData = async () => {
-    setIsRefreshing(true);
-    try {
-      const [settingsRes, feedRes, digestsRes, emailsRes] = await Promise.all([
-        fetch('/api/settings'),
-        fetch('/api/feed'),
-        fetch('/api/digests'),
-        fetch('/api/emails')
-      ]);
-
-      if (settingsRes.ok) {
-        const s = await settingsRes.json();
-        setSettings(s);
-      }
-      if (feedRes.ok) {
-        const f = await feedRes.json();
-        setPosts(f);
-      }
-      if (digestsRes.ok) {
-        const d = await digestsRes.json();
-        setDigests(d);
-      }
-      if (emailsRes.ok) {
-        const em = await emailsRes.json();
-        setEmails(em);
-      }
-    } catch (err) {
-      console.error("Error manual refresh action:", err);
-    } finally {
-      setIsRefreshing(false);
+    } else {
+      // Re-read local storage
+      setSettings(clientStore.getSettings());
+      setPosts(clientStore.getPosts());
+      setDigests(clientStore.getDigests());
+      setEmails(clientStore.getEmails());
+      setTimeout(() => setIsRefreshing(false), 500);
     }
   };
 
   // Simulating active LinkedIn past 24h timeline ingestion
   const handleSimulateIngest = async () => {
     setIsIngesting(true);
-    try {
-      const res = await fetch('/api/feed/ingest-simulate', { method: 'POST' });
-      if (res.ok) {
-        const data = await res.json();
-        setPosts(data.posts);
-        
-        // Refresh feed entries
-        const feedRes = await fetch('/api/feed');
-        if (feedRes.ok) {
-          setPosts(await feedRes.json());
+    if (runMode === 'server') {
+      try {
+        const res = await fetch('/api/feed/ingest-simulate', { method: 'POST' });
+        if (res.ok) {
+          const data = await res.json();
+          setPosts(data.posts);
+          
+          // Refresh feed entries
+          const feedRes = await fetch('/api/feed');
+          if (feedRes.ok) {
+            setPosts(await feedRes.json());
+          }
+        } else {
+          console.error("Simulation response failed");
         }
-      } else {
-        console.error("Simulation response failed");
+      } catch (err) {
+        console.error("Error dispatching simulation feeds ingest:", err);
+      } finally {
+        setIsIngesting(false);
       }
-    } catch (err) {
-      console.error("Error dispatching simulation feeds ingest:", err);
-    } finally {
-      setIsIngesting(false);
+    } else {
+      try {
+        const newPosts = await clientSimulateIngest(settings);
+        const current = clientStore.getPosts();
+        const combined = [...newPosts, ...current].slice(0, 30);
+        clientStore.savePosts(combined);
+        setPosts(combined);
+      } catch (e) {
+        console.error("Local scavenging simulate failed:", e);
+      } finally {
+        setIsIngesting(false);
+      }
     }
   };
 
   // Parsing pasted raw copy paste timeline block content
   const handleImportPaste = async (text: string) => {
     setIsImportingPaste(true);
-    try {
-      const res = await fetch('/api/feed/ingest-paste', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pastedText: text })
-      });
+    if (runMode === 'server') {
+      try {
+        const res = await fetch('/api/feed/ingest-paste', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pastedText: text })
+        });
 
-      if (res.ok) {
-        const feedRes = await fetch('/api/feed');
-        if (feedRes.ok) {
-          setPosts(await feedRes.json());
+        if (res.ok) {
+          const feedRes = await fetch('/api/feed');
+          if (feedRes.ok) {
+            setPosts(await feedRes.json());
+          }
+        } else {
+          console.error("Failed pasting parser");
         }
-      } else {
-        console.error("Failed pasting parser");
+      } catch (err) {
+        console.error("Error executing custom clipboard imports parser:", err);
+      } finally {
+        setIsImportingPaste(false);
       }
-    } catch (err) {
-      console.error("Error executing custom clipboard imports parser:", err);
-    } finally {
-      setIsImportingPaste(false);
+    } else {
+      try {
+        const parsed = await clientImportPaste(text, settings);
+        const current = clientStore.getPosts();
+        const combined = [...parsed, ...current].slice(0, 30);
+        clientStore.savePosts(combined);
+        setPosts(combined);
+      } catch (err) {
+        console.error("Client side timeline parse failed:", err);
+      } finally {
+        setIsImportingPaste(false);
+      }
     }
   };
 
   // Compile summary digest of past 24 hours
   const handleGenerateDigest = async () => {
     setIsGeneratingDigest(true);
-    try {
-      const res = await fetch('/api/feed/summarize', { method: 'POST' });
-      if (res.ok) {
-        // Refresh digests list
-        const digRes = await fetch('/api/digests');
-        if (digRes.ok) {
-          setDigests(await digRes.json());
+    if (runMode === 'server') {
+      try {
+        const res = await fetch('/api/feed/summarize', { method: 'POST' });
+        if (res.ok) {
+          // Refresh digests list
+          const digRes = await fetch('/api/digests');
+          if (digRes.ok) {
+            setDigests(await digRes.json());
+          }
+        } else {
+          const err = await res.json();
+          alert(err.error || "Failed generating summarizes briefing digest.");
         }
-      } else {
-        const err = await res.json();
-        alert(err.error || "Failed generating summarizes briefing digest.");
+      } catch (err) {
+        console.error("Error starting AI model summary briefings compiler:", err);
+      } finally {
+        setIsGeneratingDigest(false);
       }
-    } catch (err) {
-      console.error("Error starting AI model summary briefings compiler:", err);
-    } finally {
-      setIsGeneratingDigest(false);
+    } else {
+      try {
+        const newDigest = await clientGenerateDigest(settings, posts);
+        const current = clientStore.getDigests();
+        const combined = [newDigest, ...current].slice(0, 15);
+        clientStore.saveDigests(combined);
+        setDigests(combined);
+      } catch (err: any) {
+        alert(err.message || "Failed compiling digest. Try simulating feed items first!");
+      } finally {
+        setIsGeneratingDigest(false);
+      }
     }
   };
 
   // Delete/dismiss individual timeline posts
   const handleDeletePost = async (id: string) => {
-    try {
-      const res = await fetch(`/api/feed/${id}`, { method: 'DELETE' });
-      if (res.ok) {
-        setPosts(prev => prev.filter(p => p.id !== id));
+    if (runMode === 'server') {
+      try {
+        const res = await fetch(`/api/feed/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          setPosts(prev => prev.filter(p => p.id !== id));
+        }
+      } catch (err) {
+        console.error("Error removing post record:", err);
       }
-    } catch (err) {
-      console.error("Error removing post record:", err);
+    } else {
+      const updated = clientStore.deletePost(id);
+      setPosts(updated);
     }
   };
 
   // Save modified user configurations
   const handleSaveSettings = async (updatedSettings: AppSettings) => {
     setIsSavingSettings(true);
-    try {
-      const res = await fetch('/api/settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedSettings)
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setSettings(data);
+    if (runMode === 'server') {
+      try {
+        const res = await fetch('/api/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedSettings)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setSettings(data);
+        }
+      } catch (err) {
+        console.error("Error committing settings adjustments:", err);
+      } finally {
+        setIsSavingSettings(false);
       }
-    } catch (err) {
-      console.error("Error committing settings adjustments:", err);
-    } finally {
+    } else {
+      clientStore.saveSettings(updatedSettings);
+      setSettings(updatedSettings);
       setIsSavingSettings(false);
     }
   };
@@ -243,29 +354,54 @@ export default function App() {
   const handleSendEmail = async (digestId: string) => {
     setIsEmailing(true);
     setEmailSuccess(false);
-    try {
-      const res = await fetch('/api/email/send-digest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ digestId })
-      });
-      if (res.ok) {
-        setEmailSuccess(true);
-        // Refresh history log & emails queue
-        const [emRes, digRes] = await Promise.all([
-          fetch('/api/emails'),
-          fetch('/api/digests')
-        ]);
-        if (emRes.ok) setEmails(await emRes.json());
-        if (digRes.ok) setDigests(await digRes.json());
+    if (runMode === 'server') {
+      try {
+        const res = await fetch('/api/email/send-digest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ digestId })
+        });
+        if (res.ok) {
+          setEmailSuccess(true);
+          // Refresh history log & emails queue
+          const [emRes, digRes] = await Promise.all([
+            fetch('/api/emails'),
+            fetch('/api/digests')
+          ]);
+          if (emRes.ok) setEmails(await emRes.json());
+          if (digRes.ok) setDigests(await digRes.json());
 
-        // clear successes message after a while
-        setTimeout(() => setEmailSuccess(false), 5000);
+          // clear successes message after a while
+          setTimeout(() => setEmailSuccess(false), 5000);
+        }
+      } catch (err) {
+        console.error("Error calling e-mail endpoints:", err);
+      } finally {
+        setIsEmailing(false);
       }
-    } catch (err) {
-      console.error("Error calling e-mail endpoints:", err);
-    } finally {
-      setIsEmailing(false);
+    } else {
+      try {
+        const targetDigest = digests.find(d => d.id === digestId);
+        if (targetDigest) {
+          const simulatedEmail = clientTransmitEmailMock(targetDigest, settings);
+          const currentEmails = clientStore.getEmails();
+          const updatedEmails = [simulatedEmail, ...currentEmails];
+          clientStore.saveEmails(updatedEmails);
+          setEmails(updatedEmails);
+
+          // Mark digest as emailed locally
+          const updatedDigests = digests.map(d => d.id === digestId ? { ...d, isEmailed: true, emailTime: new Date().toISOString() } : d);
+          clientStore.saveDigests(updatedDigests);
+          setDigests(updatedDigests);
+
+          setEmailSuccess(true);
+          setTimeout(() => setEmailSuccess(false), 5000);
+        }
+      } catch (e) {
+        console.error("Local client mock email transmission failed:", e);
+      } finally {
+        setIsEmailing(false);
+      }
     }
   };
 
@@ -273,54 +409,64 @@ export default function App() {
   const handleTestSMTPConnection = async () => {
     setIsTestingSMTP(true);
     setSmtpTestResult(null);
-    try {
-      // We will trigger a quick settings save since we need parameters present on the backend, 
-      // then we'll send a test dispatch matching the latest generated digest (or a starter test)
-      const currentDigestToTest = digests[0];
-      if (!currentDigestToTest) {
-        setSmtpTestResult({
-          success: false,
-          message: "No digest exists today to transmit. Generate a digest briefing before triggering test dispatches."
-        });
-        setIsTestingSMTP(false);
-        return;
-      }
-
-      const res = await fetch('/api/email/send-digest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ digestId: currentDigestToTest.id })
-      });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
-        if (data.record.status === 'delivered') {
+    if (runMode === 'server') {
+      try {
+        // We will trigger a quick settings save since we need parameters present on the backend, 
+        // then we'll send a test dispatch matching the latest generated digest (or a starter test)
+        const currentDigestToTest = digests[0];
+        if (!currentDigestToTest) {
           setSmtpTestResult({
-            success: true,
-            message: `SMTP Connection test successful! E-mail successfully dispatched and verified by host relay.`
+            success: false,
+            message: "No digest exists today to transmit. Generate a digest briefing before triggering test dispatches."
           });
+          setIsTestingSMTP(false);
+          return;
+        }
+
+        const res = await fetch('/api/email/send-digest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ digestId: currentDigestToTest.id })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          if (data.record.status === 'delivered') {
+            setSmtpTestResult({
+              success: true,
+              message: `SMTP Connection test successful! E-mail successfully dispatched and verified by host relay.`
+            });
+          } else {
+            setSmtpTestResult({
+              success: false,
+              message: `SMTP connected but mail was SIMULATED. Please ensure "SMTP toggle" is turned ON inside advanced metrics and valid credentials are saved.`
+            });
+          }
+          // Refresh emails in background
+          const emRes = await fetch('/api/emails');
+          if (emRes.ok) setEmails(await emRes.json());
         } else {
           setSmtpTestResult({
             success: false,
-            message: `SMTP connected but mail was SIMULATED. Please ensure "SMTP toggle" is turned ON inside advanced metrics and valid credentials are saved.`
+            message: data.error || "Failed sending verification connection test via host."
           });
         }
-        // Refresh emails in background
-        const emRes = await fetch('/api/emails');
-        if (emRes.ok) setEmails(await emRes.json());
-      } else {
+      } catch (err: any) {
         setSmtpTestResult({
           success: false,
-          message: data.error || "Failed sending verification connection test via host."
+          message: err.message || "Failed running connection test. Verify host domain address."
         });
+      } finally {
+        setIsTestingSMTP(false);
       }
-    } catch (err: any) {
-      setSmtpTestResult({
-        success: false,
-        message: err.message || "Failed running connection test. Verify host domain address."
-      });
-    } finally {
-      setIsTestingSMTP(false);
+    } else {
+      setTimeout(() => {
+        setSmtpTestResult({
+          success: true,
+          message: `Local Mode SMTP validation simulated successfully! Loaded local simulated transmission data. Connect to Cloud Server Mode if you seek authentic host relay validation.`
+        });
+        setIsTestingSMTP(false);
+      }, 1200);
     }
   };
 
@@ -452,6 +598,8 @@ export default function App() {
             onOpenPasteModal={() => setIsPasteModalOpen(true)}
             onRefreshData={handleRefreshAllData}
             isRefreshing={isRefreshing}
+            runMode={runMode}
+            onToggleRunMode={handleToggleRunMode}
           />
 
           {/* Embedded workspace Content container */}

@@ -31,6 +31,7 @@ export interface AppSettings {
   keywords: string[];
   emailRecipient: string;
   openaiApiKey: string;
+  geminiApiKey?: string; // Client-side direct key for Standalone Browser Mode
   aiProvider: 'gemini' | 'openai';
   smtpEnabled: boolean;
   smtpHost: string;
